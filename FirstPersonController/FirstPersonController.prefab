@@ -152,7 +152,7 @@ MonoBehaviour:
     ClampVerticalRotation: 1
     MinimumX: -90
     MaximumX: 90
-    Smooth: 0
+    Smooth: 1
     SmoothTime: 5
     LockCursor: 1
   UseFovKick: 1

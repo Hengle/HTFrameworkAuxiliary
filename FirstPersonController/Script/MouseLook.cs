@@ -15,8 +15,8 @@ namespace HT.Framework.Auxiliary
         public float SmoothTime = 5f;
         public bool LockCursor = true;
         
-        private Quaternion _characterTargetRot;
-        private Quaternion _cameraTargetRot;
+        private Quaternion _characterTargetRot = Quaternion.identity;
+        private Quaternion _cameraTargetRot = Quaternion.identity;
 
         /// <summary>
         /// ÉèÖÃÉãÏñ»úÈÆYÖá×¢ÊÍ½Ç¶È
