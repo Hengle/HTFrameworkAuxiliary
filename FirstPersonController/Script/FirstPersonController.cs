@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 namespace HT.Framework.Auxiliary
 {
@@ -38,6 +39,7 @@ namespace HT.Framework.Auxiliary
         private Vector3 _originalCameraPosition;
         private bool _isNaving = false;
         private Vector3 _navEndTarget;
+        private UnityAction _navEndAction;
         private float _stopNavBuffer;
         private bool _jump;
         private float _yRotation;
@@ -225,7 +227,7 @@ namespace HT.Framework.Auxiliary
         /// <summary>
         /// 开始导航
         /// </summary>
-        public void StartNavigation(Vector3 pos)
+        public void StartNavigation(Vector3 pos, UnityAction endAction = null)
         {
             pos.y += 0.5f;
             Vector3 point;
@@ -238,6 +240,7 @@ namespace HT.Framework.Auxiliary
                 _characterController.enabled = false;
                 _agent.enabled = true;
                 _navEndTarget = Vector3.zero;
+                _navEndAction = endAction;
                 SetLookXAngle(0);
                 Look.LookRotation(transform, _camera.transform);
                 _agent.SetDestination(pos);
@@ -246,7 +249,7 @@ namespace HT.Framework.Auxiliary
         /// <summary>
         /// 开始导航，结束后看向指定目标
         /// </summary>
-        public void StartNavigation(Vector3 pos, Vector3 target)
+        public void StartNavigation(Vector3 pos, Vector3 target, UnityAction endAction = null)
         {
             pos.y += 0.5f;
             Vector3 point;
@@ -259,6 +262,7 @@ namespace HT.Framework.Auxiliary
                 _characterController.enabled = false;
                 _agent.enabled = true;
                 _navEndTarget = target;
+                _navEndAction = endAction;
                 SetLookXAngle(0);
                 Look.LookRotation(transform, _camera.transform);
                 _agent.SetDestination(pos);
@@ -299,6 +303,11 @@ namespace HT.Framework.Auxiliary
                 if (_navEndTarget != Vector3.zero)
                 {
                     LookAtTarget(_navEndTarget);
+                }
+                if (_navEndAction != null)
+                {
+                    _navEndAction();
+                    _navEndAction = null;
                 }
             }
         }
