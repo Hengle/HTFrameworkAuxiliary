@@ -13,6 +13,7 @@ namespace HT.Framework.Auxiliary
         public static FirstPersonController Current;
 
         public bool IsCanControl = true;
+        public bool IsEnableNavigation = false;
         public bool IsWalking = false;
         public float WalkSpeed = 4;
         public float RunSpeed = 8;
@@ -75,15 +76,18 @@ namespace HT.Framework.Auxiliary
         {
             if (IsCanControl)
             {
-                if (Main.m_Input.GetButtonDown("MouseLeft") && !GlobalTools.IsPointerOverUGUI())
+                if (IsEnableNavigation)
                 {
-                    Ray ray = _camera.ScreenPointToRay(Main.m_Input.MousePosition);
-                    RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit))
+                    if (Main.m_Input.GetButtonDown("MouseLeft") && !GlobalTools.IsPointerOverUGUI())
                     {
-                        if (hit.transform.CompareTag(GroundTag))
+                        Ray ray = _camera.ScreenPointToRay(Main.m_Input.MousePosition);
+                        RaycastHit hit;
+                        if (Physics.Raycast(ray, out hit))
                         {
-                            StartNavigation(hit.point);
+                            if (hit.transform.CompareTag(GroundTag))
+                            {
+                                StartNavigation(hit.point);
+                            }
                         }
                     }
                 }
