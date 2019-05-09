@@ -7,10 +7,10 @@ namespace HT.Framework.Auxiliary
     /// <summary>
     /// 门
     /// </summary>
-    public sealed class Door : MonoBehaviour
+    public sealed class Door : RoomBehaviour
     {
         /// <summary>
-        /// 是否自动开/关门
+        /// 是否自动开/关门（当Player触碰到门触发器时）
         /// </summary>
         public bool AutoOpen = true;
         /// <summary>
@@ -50,14 +50,6 @@ namespace HT.Framework.Auxiliary
         /// 关闭门事件
         /// </summary>
         public event Action CloseEvent;
-        /// <summary>
-        /// 禁止开门事件（当禁止开门后，试图开门时触发）
-        /// </summary>
-        public event Action ProhibitOpenEvent;
-        /// <summary>
-        /// 禁止关门事件（当禁止关门后，试图关门时触发）
-        /// </summary>
-        public event Action ProhibitCloseEvent;
         /// <summary>
         /// 门是否可以打开
         /// </summary>
@@ -123,13 +115,6 @@ namespace HT.Framework.Auxiliary
                     }
                 }
             }
-            else
-            {
-                if (ProhibitOpenEvent != null)
-                {
-                    ProhibitOpenEvent();
-                }
-            }
         }
         /// <summary>
         /// 后开门
@@ -156,13 +141,6 @@ namespace HT.Framework.Auxiliary
                     }
                 }
             }
-            else
-            {
-                if (ProhibitOpenEvent != null)
-                {
-                    ProhibitOpenEvent();
-                }
-            }
         }
         /// <summary>
         /// 关门
@@ -187,13 +165,6 @@ namespace HT.Framework.Auxiliary
                             DoorEntity.DOLocalMove(CloseValue, _speed);
                             break;
                     }
-                }
-            }
-            else
-            {
-                if (ProhibitCloseEvent != null)
-                {
-                    ProhibitCloseEvent();
                 }
             }
         }

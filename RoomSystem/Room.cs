@@ -6,7 +6,7 @@ namespace HT.Framework.Auxiliary
     /// 房间
     /// </summary>
     [RequireComponent(typeof(BoxCollider))]
-    public sealed class Room : MonoBehaviour
+    public sealed class Room : RoomBehaviour
     {
         /// <summary>
         /// 当前Player所在的房间
@@ -35,6 +35,11 @@ namespace HT.Framework.Auxiliary
         /// </summary>
         private bool _isShowEntities = false;
 
+        protected override void Awake()
+        {
+            base.Awake();
+        }
+
         private void Start()
         {
             for (int i = 0; i < Doors.Length; i++)
@@ -54,7 +59,7 @@ namespace HT.Framework.Auxiliary
         {
             if (!_isExistHero || (_isExistHero && CurrentRoom != this))
             {
-                if (other.tag == "Player")
+                if (other.CompareTag("Player"))
                 {
                     _isExistHero = true;
                     CurrentRoom = this;
@@ -68,7 +73,7 @@ namespace HT.Framework.Auxiliary
         {
             if (_isExistHero)
             {
-                if (other.tag == "Player")
+                if (other.CompareTag("Player"))
                 {
                     _isExistHero = false;
                     if (CurrentRoom == this)

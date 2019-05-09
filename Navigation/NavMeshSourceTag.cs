@@ -5,13 +5,14 @@ using System.Collections.Generic;
 namespace HT.Framework.Auxiliary
 {
     [DefaultExecutionOrder(-10)]
-    public class NavMeshSourceTag : MonoBehaviour
+    [DisallowMultipleComponent]
+    public sealed class NavMeshSourceTag : MonoBehaviour
     {
         public static List<MeshFilter> Meshes = new List<MeshFilter>();
 
         private void OnEnable()
         {
-            var m = GetComponent<MeshFilter>();
+            MeshFilter m = GetComponent<MeshFilter>();
             if (m != null)
             {
                 Meshes.Add(m);
@@ -20,7 +21,7 @@ namespace HT.Framework.Auxiliary
 
         private void OnDisable()
         {
-            var m = GetComponent<MeshFilter>();
+            MeshFilter m = GetComponent<MeshFilter>();
             if (m != null)
             {
                 Meshes.Remove(m);
@@ -31,15 +32,15 @@ namespace HT.Framework.Auxiliary
         {
             sources.Clear();
 
-            for (var i = 0; i < Meshes.Count; ++i)
+            for (var i = 0; i < Meshes.Count; i++)
             {
-                var mf = Meshes[i];
+                MeshFilter mf = Meshes[i];
                 if (mf == null) continue;
 
-                var m = mf.sharedMesh;
+                Mesh m = mf.sharedMesh;
                 if (m == null) continue;
 
-                var s = new NavMeshBuildSource();
+                NavMeshBuildSource s = new NavMeshBuildSource();
                 s.shape = NavMeshBuildSourceShape.Mesh;
                 s.sourceObject = m;
                 s.transform = mf.transform.localToWorldMatrix;

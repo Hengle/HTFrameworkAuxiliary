@@ -6,16 +6,21 @@ namespace HT.Framework.Auxiliary
     /// 开/关门触发器
     /// </summary>
     [RequireComponent(typeof(BoxCollider))]
-    public sealed class DoorTrigger : MonoBehaviour
+    public sealed class DoorTrigger : RoomBehaviour
     {
         /// <summary>
         /// 是否触发
         /// </summary>
-        public bool IsTrigger { get; set; } = false;
+        public bool IsTrigger { get; private set; } = false;
+
+        protected override void Awake()
+        {
+            base.Awake();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Player")
+            if (other.CompareTag("Player"))
             {
                 IsTrigger = true;
             }
@@ -23,7 +28,7 @@ namespace HT.Framework.Auxiliary
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.tag == "Player")
+            if (other.CompareTag("Player"))
             {
                 IsTrigger = false;
             }

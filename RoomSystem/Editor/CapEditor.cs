@@ -4,7 +4,7 @@ using UnityEngine;
 namespace HT.Framework.Auxiliary
 {
     [CustomEditor(typeof(Cap))]
-    public class CapEditor : Editor
+    public sealed class CapEditor : Editor
     {
         private Cap _cap;
 
@@ -17,43 +17,43 @@ namespace HT.Framework.Auxiliary
         {
             GUILayout.BeginHorizontal();
             GUILayout.Label("OpenType");
-            _cap.TheOpenType = (OpenType)EditorGUILayout.EnumPopup(_cap.TheOpenType);
+            _cap.OpenType = (Cap.CapOpenType)EditorGUILayout.EnumPopup(_cap.OpenType);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            _cap.Opened = EditorGUILayout.Vector3Field("Opened", _cap.Opened);
-            if (GUILayout.Button("ReSet"))
+            _cap.OpenValue = EditorGUILayout.Vector3Field("Open Value", _cap.OpenValue);
+            if (GUILayout.Button("Get Current"))
             {
-                if (_cap.TheOpenType == OpenType.Rotate)
+                if (_cap.OpenType == Cap.CapOpenType.Rotate)
                 {
                     Vector3 rot = _cap.transform.localRotation.eulerAngles;
-                    float x = (rot.x > 180) ? (rot.x - 360) : rot.x;
-                    float y = (rot.y > 180) ? (rot.y - 360) : rot.y;
-                    float z = (rot.z > 180) ? (rot.z - 360) : rot.z;
-                    _cap.Opened = new Vector3(x, y, z);
+                    rot.x = (rot.x > 180) ? (rot.x - 360) : rot.x;
+                    rot.y = (rot.y > 180) ? (rot.y - 360) : rot.y;
+                    rot.z = (rot.z > 180) ? (rot.z - 360) : rot.z;
+                    _cap.OpenValue = rot;
                 }
                 else
                 {
-                    _cap.Opened = _cap.transform.localPosition;
+                    _cap.OpenValue = _cap.transform.localPosition;
                 }
             }
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            _cap.Closed = EditorGUILayout.Vector3Field("Closed", _cap.Closed);
-            if (GUILayout.Button("ReSet"))
+            _cap.CloseValue = EditorGUILayout.Vector3Field("Close Value", _cap.CloseValue);
+            if (GUILayout.Button("Get Current"))
             {
-                if (_cap.TheOpenType == OpenType.Rotate)
+                if (_cap.OpenType == Cap.CapOpenType.Rotate)
                 {
                     Vector3 rot = _cap.transform.localRotation.eulerAngles;
-                    float x = (rot.x > 180) ? (rot.x - 360) : rot.x;
-                    float y = (rot.y > 180) ? (rot.y - 360) : rot.y;
-                    float z = (rot.z > 180) ? (rot.z - 360) : rot.z;
-                    _cap.Closed = new Vector3(x, y, z);
+                    rot.x = (rot.x > 180) ? (rot.x - 360) : rot.x;
+                    rot.y = (rot.y > 180) ? (rot.y - 360) : rot.y;
+                    rot.z = (rot.z > 180) ? (rot.z - 360) : rot.z;
+                    _cap.CloseValue = rot;
                 }
                 else
                 {
-                    _cap.Closed = _cap.transform.localPosition;
+                    _cap.CloseValue = _cap.transform.localPosition;
                 }
             }
             GUILayout.EndHorizontal();
@@ -61,24 +61,24 @@ namespace HT.Framework.Auxiliary
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Open the cap"))
             {
-                if (_cap.TheOpenType == OpenType.Rotate)
+                if (_cap.OpenType == Cap.CapOpenType.Rotate)
                 {
-                    _cap.transform.localRotation = Quaternion.Euler(_cap.Opened);
+                    _cap.transform.localRotation = Quaternion.Euler(_cap.OpenValue);
                 }
                 else
                 {
-                    _cap.transform.localPosition = _cap.Opened;
+                    _cap.transform.localPosition = _cap.OpenValue;
                 }
             }
             if (GUILayout.Button("Close the cap"))
             {
-                if (_cap.TheOpenType == OpenType.Rotate)
+                if (_cap.OpenType == Cap.CapOpenType.Rotate)
                 {
-                    _cap.transform.localRotation = Quaternion.Euler(_cap.Closed);
+                    _cap.transform.localRotation = Quaternion.Euler(_cap.CloseValue);
                 }
                 else
                 {
-                    _cap.transform.localPosition = _cap.Closed;
+                    _cap.transform.localPosition = _cap.CloseValue;
                 }
             }
             GUILayout.EndHorizontal();

@@ -2,63 +2,72 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
-using NavMeshBuilder = UnityEngine.AI.NavMeshBuilder;
 
 namespace HT.Framework.Auxiliary
 {
     [DefaultExecutionOrder(-9)]
-    public class LocalNavMeshBuilder : MonoBehaviour
+    [DisallowMultipleComponent]
+    public sealed class LocalNavMeshBuilder : MonoBehaviour
     {
-        public Transform m_Tracked;
-        public Vector3 m_Size = new Vector3(80.0f, 20.0f, 80.0f);
-        public bool isUpdataNavMeshData = false;
+        /// <summary>
+        /// 导航网格烘培目标
+        /// </summary>
+        public Transform Tracked;
+        /// <summary>
+        /// 导航外围区域
+        /// </summary>
+        public Vector3 Size = new Vector3(80.0f, 20.0f, 80.0f);
+        /// <summary>
+        /// 持续刷新导航网格
+        /// </summary>
+        public bool IsUpdataNavMeshData = false;
 
-        NavMeshData m_NavMesh;
-        AsyncOperation m_Operation;
-        NavMeshDataInstance m_Instance;
-        List<NavMeshBuildSource> m_Sources = new List<NavMeshBuildSource>();
+        private NavMeshData _navMesh;
+        private AsyncOperation _operation;
+        private NavMeshDataInstance _instance;
+        private List<NavMeshBuildSource> _sources = new List<NavMeshBuildSource>();
 
         IEnumerator Start()
         {
-            if (isUpdataNavMeshData)
+            if (IsUpdataNavMeshData)
             {
                 while (true)
                 {
                     UpdateNavMesh(true);
-                    yield return m_Operation;
+                    yield return _operation;
                 }
             }
             else
             {
                 UpdateNavMesh(true);
-                yield return m_Operation;
+                yield return _operation;
             }
         }
 
         private void OnEnable()
         {
-            m_NavMesh = new NavMeshData();
-            m_Instance = NavMesh.AddNavMeshData(m_NavMesh);
-            if (m_Tracked == null)
-                m_Tracked = transform;
+            _navMesh = new NavMeshData();
+            _instance = NavMesh.AddNavMeshData(_navMesh);
+            if (Tracked == null)
+                Tracked = transform;
             UpdateNavMesh(false);
         }
 
         private void OnDisable()
         {
-            m_Instance.Remove();
+            _instance.Remove();
         }
 
         private void UpdateNavMesh(bool asyncUpdate = false)
         {
-            NavMeshSourceTag.Collect(ref m_Sources);
-            var defaultBuildSettings = NavMesh.GetSettingsByID(0);
-            var bounds = QuantizedBounds();
+            NavMeshSourceTag.Collect(ref _sources);
+            NavMeshBuildSettings defaultBuildSettings = NavMesh.GetSettingsByID(0);
+            Bounds bounds = QuantizedBounds();
 
             if (asyncUpdate)
-                m_Operation = NavMeshBuilder.UpdateNavMeshDataAsync(m_NavMesh, defaultBuildSettings, m_Sources, bounds);
+                _operation = NavMeshBuilder.UpdateNavMeshDataAsync(_navMesh, defaultBuildSettings, _sources, bounds);
             else
-                NavMeshBuilder.UpdateNavMeshData(m_NavMesh, defaultBuildSettings, m_Sources, bounds);
+                NavMeshBuilder.UpdateNavMeshData(_navMesh, defaultBuildSettings, _sources, bounds);
         }
 
         private static Vector3 Quantize(Vector3 v, Vector3 quant)
@@ -71,25 +80,25 @@ namespace HT.Framework.Auxiliary
 
         private Bounds QuantizedBounds()
         {
-            var center = m_Tracked ? m_Tracked.position : transform.position;
-            return new Bounds(Quantize(center, 0.1f * m_Size), m_Size);
+            Vector3 center = Tracked ? Tracked.position : transform.position;
+            return new Bounds(Quantize(center, 0.1f * Size), Size);
         }
 
         private void OnDrawGizmosSelected()
         {
-            if (m_NavMesh)
+            if (_navMesh)
             {
                 Gizmos.color = Color.green;
-                Gizmos.DrawWireCube(m_NavMesh.sourceBounds.center, m_NavMesh.sourceBounds.size);
+                Gizmos.DrawWireCube(_navMesh.sourceBounds.center, _navMesh.sourceBounds.size);
             }
 
             Gizmos.color = Color.yellow;
-            var bounds = QuantizedBounds();
+            Bounds bounds = QuantizedBounds();
             Gizmos.DrawWireCube(bounds.center, bounds.size);
 
             Gizmos.color = Color.green;
-            var center = m_Tracked ? m_Tracked.position : transform.position;
-            Gizmos.DrawWireCube(center, m_Size);
+            Vector3 center = Tracked ? Tracked.position : transform.position;
+            Gizmos.DrawWireCube(center, Size);
         }
     }
 }

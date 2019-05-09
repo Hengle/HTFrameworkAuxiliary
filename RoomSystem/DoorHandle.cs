@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace HT.Framework.Auxiliary
 {
@@ -7,20 +6,25 @@ namespace HT.Framework.Auxiliary
     /// 门把手
     /// </summary>
     [RequireComponent(typeof(BoxCollider))]
-    public sealed class DoorHandle : MonoBehaviour
+    public sealed class DoorHandle : RoomBehaviour
     {
         /// <summary>
         /// 附加到的门
         /// </summary>
         public Door AttachDoor;
         /// <summary>
-        /// 是否前开门（否者后开门）
+        /// 开门方向
         /// </summary>
-        public bool IsFrontOpen = true;
+        public DoorOpenDirection OpenDirection;
+
+        protected override void Awake()
+        {
+            base.Awake();
+        }
 
         private void OnMouseDown()
         {
-            if (EventSystem.current.IsPointerOverGameObject())
+            if (GlobalTools.IsPointerOverUGUI())
             {
                 return;
             }
@@ -31,7 +35,7 @@ namespace HT.Framework.Auxiliary
             }
             else
             {
-                if (IsFrontOpen)
+                if (OpenDirection == DoorOpenDirection.Front)
                 {
                     AttachDoor.FrontOpen();
                 }
@@ -40,6 +44,21 @@ namespace HT.Framework.Auxiliary
                     AttachDoor.BackOpen();
                 }
             }
+        }
+
+        /// <summary>
+        /// 开门的方向
+        /// </summary>
+        public enum DoorOpenDirection
+        {
+            /// <summary>
+            /// 前开门
+            /// </summary>
+            Front,
+            /// <summary>
+            /// 后开门
+            /// </summary>
+            Back
         }
     }
 }

@@ -1,104 +1,127 @@
 ﻿using DG.Tweening;
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace HT.Framework.Auxiliary
 {
     /// <summary>
-    /// 可打开的盖子
+    /// 盖子
     /// </summary>
     [RequireComponent(typeof(BoxCollider))]
-    public sealed class Cap : MonoBehaviour
+    public sealed class Cap : RoomBehaviour
     {
-        public Vector3 Opened;
-        public Vector3 Closed;
-        public OpenType TheOpenType = OpenType.Move;
+        /// <summary>
+        /// 打开盖子的方式
+        /// </summary>
+        public CapOpenType OpenType = CapOpenType.Move;
+        /// <summary>
+        /// 开门的值
+        /// </summary>
+        public Vector3 OpenValue;
+        /// <summary>
+        /// 关门的值
+        /// </summary>
+        public Vector3 CloseValue;
 
-        private bool _isOpen = false;
+        /// <summary>
+        /// 打开盖子事件
+        /// </summary>
+        public event Action OpenEvent;
+        /// <summary>
+        /// 关闭盖子事件
+        /// </summary>
+        public event Action CloseEvent;
+        /// <summary>
+        /// 盖子是否可以打开
+        /// </summary>
+        public bool IsCanOpen { get; set; } = true;
+        /// <summary>
+        /// 盖子是否可以关闭
+        /// </summary>
+        public bool IsCanClose { get; set; } = true;
+        /// <summary>
+        /// 是否是打开的
+        /// </summary>
+        public bool IsOpened { get; private set; } = false;
+
+        private float _speed = 0.5f;
 
         /// <summary>
         /// 打开或关闭
         /// </summary>
         public void OpenOrClose()
         {
-            if (_isOpen)
+            if (IsOpened)
             {
-                _isOpen = false;
-                if (TheOpenType == OpenType.Rotate)
-                {
-                    transform.DOLocalRotateQuaternion(Quaternion.Euler(Closed), 1);
-                }
-                else
-                {
-                    transform.DOLocalMove(Closed, 1);
-                }
+                Close();
             }
             else
             {
-                _isOpen = true;
-                if (TheOpenType == OpenType.Rotate)
-                {
-                    transform.DOLocalRotateQuaternion(Quaternion.Euler(Opened), 1);
-                }
-                else
-                {
-                    transform.DOLocalMove(Opened, 1);
-                }
+                Open();
             }
         }
-
         /// <summary>
         /// 打开盖子
         /// </summary>
         public void Open()
         {
-            if (!_isOpen)
+            if (!IsOpened)
             {
-                _isOpen = true;
-                if (TheOpenType == OpenType.Rotate)
+                IsOpened = true;
+                if (OpenEvent != null)
                 {
-                    transform.DOLocalRotateQuaternion(Quaternion.Euler(Opened), 1);
+                    OpenEvent();
+                }
+                if (OpenType == CapOpenType.Rotate)
+                {
+                    transform.DOLocalRotate(OpenValue, _speed);
                 }
                 else
                 {
-                    transform.DOLocalMove(Opened, 1);
+                    transform.DOLocalMove(OpenValue, _speed);
                 }
             }
         }
-
         /// <summary>
         /// 关闭盖子
         /// </summary>
         public void Close()
         {
-            if (_isOpen)
+            if (IsOpened)
             {
-                _isOpen = false;
-                if (TheOpenType == OpenType.Rotate)
+                IsOpened = false;
+                if (CloseEvent != null)
                 {
-                    transform.DOLocalRotateQuaternion(Quaternion.Euler(Closed), 1);
+                    CloseEvent();
+                }
+                if (OpenType == CapOpenType.Rotate)
+                {
+                    transform.DOLocalRotate(CloseValue, _speed);
                 }
                 else
                 {
-                    transform.DOLocalMove(Closed, 1);
+                    transform.DOLocalMove(CloseValue, _speed);
                 }
             }
         }
 
         private void OnMouseDown()
         {
-            if (EventSystem.current.IsPointerOverGameObject())
+            if (GlobalTools.IsPointerOverUGUI())
             {
                 return;
             }
 
             OpenOrClose();
         }
-    }
 
-    public enum OpenType
-    {
-        Move,
-        Rotate
+        /// <summary>
+        /// 打开盖子的方式
+        /// </summary>
+        public enum CapOpenType
+        {
+            Move,
+            Rotate
+        }
     }
 }
