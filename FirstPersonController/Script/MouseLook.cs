@@ -67,7 +67,7 @@ namespace HT.Framework.Auxiliary
         }
 
         /// <summary>
-        /// 摄像机瞬间注释到目标值
+        /// 摄像机立即注释到目标值
         /// </summary>
         public void LookRotationInstant(Transform character, Transform camera)
         {

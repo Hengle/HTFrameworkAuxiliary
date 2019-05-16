@@ -246,7 +246,7 @@ namespace HT.Framework.Auxiliary
                 _navEndTarget = Vector3.zero;
                 _navEndAction = endAction;
                 SetLookXAngle(0);
-                Look.LookRotation(transform, _camera.transform);
+                Look.LookRotationInstant(transform, _camera.transform);
                 _agent.SetDestination(pos);
             }
         }
@@ -268,7 +268,7 @@ namespace HT.Framework.Auxiliary
                 _navEndTarget = target;
                 _navEndAction = endAction;
                 SetLookXAngle(0);
-                Look.LookRotation(transform, _camera.transform);
+                Look.LookRotationInstant(transform, _camera.transform);
                 _agent.SetDestination(pos);
             }
         }
@@ -467,12 +467,14 @@ namespace HT.Framework.Auxiliary
         {
             IsCanControl = false;
             _camera.transform.SetParent(Main.m_Controller.transform);
+            Main.m_Controller.SetLookPoint(_camera.transform.position, false);
         }
         private void OnSwitchToFirstPerson()
         {
             IsCanControl = true;
             _camera.transform.SetParent(transform);
             _camera.transform.localPosition = new Vector3(0, 0.8f, 0);
+            Look.LookRotationInstant(transform, _camera.transform);
         }
     }
 }
