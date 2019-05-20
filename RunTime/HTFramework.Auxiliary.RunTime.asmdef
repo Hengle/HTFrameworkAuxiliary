@@ -1,7 +1,7 @@
 {
-    "name": "HTFrameworkAuxiliary",
+    "name": "HTFramework.Auxiliary.RunTime",
     "references": [
-        "HTFramework"
+        "HTFramework.RunTime"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
