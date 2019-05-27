@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
 namespace HT.Framework.Auxiliary
@@ -19,7 +19,7 @@ namespace HT.Framework.Auxiliary
         private Quaternion _cameraTargetRot = Quaternion.identity;
 
         /// <summary>
-        /// ÉèÖÃÉãÏñ»úÈÆYÖá×¢ÊÍ½Ç¶È
+        /// è®¾ç½®æ‘„åƒæœºç»•Yè½´æ³¨é‡Šè§’åº¦
         /// </summary>
         public void SetLookYAngle(float angle)
         {
@@ -27,7 +27,7 @@ namespace HT.Framework.Auxiliary
         }
 
         /// <summary>
-        /// ÉèÖÃÉãÏñ»úÈÆXÖá×¢ÊÍ½Ç¶È
+        /// è®¾ç½®æ‘„åƒæœºç»•Xè½´æ³¨é‡Šè§’åº¦
         /// </summary>
         public void SetLookXAngle(float angle)
         {
@@ -35,7 +35,7 @@ namespace HT.Framework.Auxiliary
         }
 
         /// <summary>
-        /// ÉãÏñ»ú×¢ÊÍĞı×ª
+        /// æ‘„åƒæœºæ³¨é‡Šæ—‹è½¬
         /// </summary>
         public void LookRotation(Transform character, Transform camera)
         {
@@ -67,7 +67,7 @@ namespace HT.Framework.Auxiliary
         }
 
         /// <summary>
-        /// ÉãÏñ»úÁ¢¼´×¢ÊÍµ½Ä¿±êÖµ
+        /// æ‘„åƒæœºç«‹å³æ³¨é‡Šåˆ°ç›®æ ‡å€¼
         /// </summary>
         public void LookRotationInstant(Transform character, Transform camera)
         {

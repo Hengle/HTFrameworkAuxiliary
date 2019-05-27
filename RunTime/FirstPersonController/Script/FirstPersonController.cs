@@ -1,11 +1,11 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
 namespace HT.Framework.Auxiliary
 {
     /// <summary>
-    /// µÚÒ»ÈË³Æ¿ØÖÆÆ÷
+    /// ç¬¬ä¸€äººç§°æ§åˆ¶å™¨
     /// </summary>
     [RequireComponent(typeof (CharacterController))]
     public sealed class FirstPersonController : MonoBehaviour
@@ -171,7 +171,7 @@ namespace HT.Framework.Auxiliary
         }
 
         /// <summary>
-        /// ÉèÖÃÖ÷½ÇÎ»ÖÃ
+        /// è®¾ç½®ä¸»è§’ä½ç½®
         /// </summary>
         public void SetPosition(Vector3 pos)
         {
@@ -186,7 +186,7 @@ namespace HT.Framework.Auxiliary
             }
         }
         /// <summary>
-        /// ÉèÖÃÖ÷½ÇÎ»ÖÃºÍĞı×ª
+        /// è®¾ç½®ä¸»è§’ä½ç½®å’Œæ—‹è½¬
         /// </summary>
         public void SetPosition(Vector3 pos, Vector3 rot)
         {
@@ -204,21 +204,21 @@ namespace HT.Framework.Auxiliary
             }
         }
         /// <summary>
-        /// ÉèÖÃÖ÷½ÇÈÆYÖáĞı×ªµÄ×¢ÊÍ½Ç¶È
+        /// è®¾ç½®ä¸»è§’ç»•Yè½´æ—‹è½¬çš„æ³¨é‡Šè§’åº¦
         /// </summary>
         public void SetLookYAngle(float angle)
         {
             Look.SetLookYAngle(angle);
         }
         /// <summary>
-        /// ÉèÖÃÖ÷½ÇÈÆXÖáĞı×ªµÄ×¢ÊÍ½Ç¶È
+        /// è®¾ç½®ä¸»è§’ç»•Xè½´æ—‹è½¬çš„æ³¨é‡Šè§’åº¦
         /// </summary>
         public void SetLookXAngle(float angle)
         {
             Look.SetLookXAngle(angle);
         }
         /// <summary>
-        /// Ö÷½Ç¿´ÏòÄ¿±êµã
+        /// ä¸»è§’çœ‹å‘ç›®æ ‡ç‚¹
         /// </summary>
         public void LookAtTarget(Vector3 target)
         {
@@ -229,7 +229,7 @@ namespace HT.Framework.Auxiliary
         }
 
         /// <summary>
-        /// ¿ªÊ¼µ¼º½
+        /// å¼€å§‹å¯¼èˆª
         /// </summary>
         public void StartNavigation(Vector3 pos, UnityAction endAction = null)
         {
@@ -251,7 +251,7 @@ namespace HT.Framework.Auxiliary
             }
         }
         /// <summary>
-        /// ¿ªÊ¼µ¼º½£¬½áÊøºó¿´ÏòÖ¸¶¨Ä¿±ê
+        /// å¼€å§‹å¯¼èˆªï¼Œç»“æŸåçœ‹å‘æŒ‡å®šç›®æ ‡
         /// </summary>
         public void StartNavigation(Vector3 pos, Vector3 target, UnityAction endAction = null)
         {
@@ -273,7 +273,7 @@ namespace HT.Framework.Auxiliary
             }
         }
         /// <summary>
-        /// µ¼º½ÒÆ¶¯ÖĞ
+        /// å¯¼èˆªç§»åŠ¨ä¸­
         /// </summary>
         private void NavigationUpdate()
         {
@@ -292,7 +292,7 @@ namespace HT.Framework.Auxiliary
             }
         }
         /// <summary>
-        /// Í£Ö¹µ¼º½ÒÆ¶¯
+        /// åœæ­¢å¯¼èˆªç§»åŠ¨
         /// </summary>
         public void StopNavigation()
         {
@@ -415,7 +415,7 @@ namespace HT.Framework.Auxiliary
         }
         private bool DetectionPointAboveGround(Vector3 point, out Vector3 correctPoint)
         {
-            //¼ì²épointÊÇ·ñ´¦ÓÚGroundÖ®ÉÏ£¬²¢ÏŞÖÆÆäyÖµ¸ßÓÚGroundµ±Ç°µãyÖµ¡¾°ë¸ö½ÇÉ«Éí¸ß + ½ÇÉ«Íâ±í¸ß¶È¡¿£¬Ê¹½ÇÉ«²»ÖÁÓÚ³¬³öGround
+            //æ£€æŸ¥pointæ˜¯å¦å¤„äºGroundä¹‹ä¸Šï¼Œå¹¶é™åˆ¶å…¶yå€¼é«˜äºGroundå½“å‰ç‚¹yå€¼ã€åŠä¸ªè§’è‰²èº«é«˜ + è§’è‰²å¤–è¡¨é«˜åº¦ã€‘ï¼Œä½¿è§’è‰²ä¸è‡³äºè¶…å‡ºGround
             _detectionRay.origin = point;
             _detectionRay.direction = Vector3.down;
             if (Physics.Raycast(_detectionRay, out _detectionRayHit))
@@ -440,7 +440,7 @@ namespace HT.Framework.Auxiliary
         }
         private bool DetectionPointInGround(Vector3 point, out Vector3 correctPoint)
         {
-            //¼ì²épointÊÇ·ñ´¦ÓÚGroundÖ®ÉÏ£¬²¢ÏŞÖÆÆäyÖµµÈÓÚGroundµ±Ç°µãyÖµ
+            //æ£€æŸ¥pointæ˜¯å¦å¤„äºGroundä¹‹ä¸Šï¼Œå¹¶é™åˆ¶å…¶yå€¼ç­‰äºGroundå½“å‰ç‚¹yå€¼
             _detectionRay.origin = point;
             _detectionRay.direction = Vector3.down;
             if (Physics.Raycast(_detectionRay, out _detectionRayHit))

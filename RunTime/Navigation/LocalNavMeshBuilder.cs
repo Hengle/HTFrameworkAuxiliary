@@ -1,4 +1,4 @@
-using UnityEngine;
+锘縰sing UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,15 +10,15 @@ namespace HT.Framework.Auxiliary
     public sealed class LocalNavMeshBuilder : MonoBehaviour
     {
         /// <summary>
-        /// 导航网格烘培目标
+        /// 瀵艰埅缃戞牸鐑樺煿鐩爣
         /// </summary>
         public Transform Tracked;
         /// <summary>
-        /// 导航外围区域
+        /// 瀵艰埅澶栧洿鍖哄煙
         /// </summary>
         public Vector3 Size = new Vector3(80.0f, 20.0f, 80.0f);
         /// <summary>
-        /// 持续刷新导航网格
+        /// 鎸佺画鍒锋柊瀵艰埅缃戞牸
         /// </summary>
         public bool IsUpdataNavMeshData = false;
 
