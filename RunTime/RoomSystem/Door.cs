@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using DG.Tweening;
-using System;
+﻿using DG.Tweening;
+using UnityEngine;
 
 namespace HT.Framework.Auxiliary
 {
@@ -45,11 +44,11 @@ namespace HT.Framework.Auxiliary
         /// <summary>
         /// 打开门事件
         /// </summary>
-        public event Action OpenEvent;
+        public event HTFAction OpenEvent;
         /// <summary>
         /// 关闭门事件
         /// </summary>
-        public event Action CloseEvent;
+        public event HTFAction CloseEvent;
         /// <summary>
         /// 门是否可以打开
         /// </summary>

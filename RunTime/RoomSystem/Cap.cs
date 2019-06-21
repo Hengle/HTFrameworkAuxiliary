@@ -1,5 +1,4 @@
 ﻿using DG.Tweening;
-using System;
 using UnityEngine;
 
 namespace HT.Framework.Auxiliary
@@ -26,11 +25,11 @@ namespace HT.Framework.Auxiliary
         /// <summary>
         /// 打开盖子事件
         /// </summary>
-        public event Action OpenEvent;
+        public event HTFAction OpenEvent;
         /// <summary>
         /// 关闭盖子事件
         /// </summary>
-        public event Action CloseEvent;
+        public event HTFAction CloseEvent;
         /// <summary>
         /// 盖子是否可以打开
         /// </summary>
